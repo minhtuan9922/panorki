@@ -1,0 +1,277 @@
+{{ header }}
+<div class="home-banner">
+    <div id="demo" class="carousel slide" data-ride="carousel"> 
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+            {% if banners %}
+            {% for key, item in banners %}
+            <li data-target="#demo" data-slide-to="{{ key }}" class="{%if key == '0' %}active{% endif %}"></li>
+            {% endfor %}
+            {% endif %}
+        </ul>
+
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+            {% if banners %}
+            {% for key, item in banners %}
+            <div class="carousel-item {% if key == '0' %}active{% endif %}"> 
+                {% if item.link %}
+                <a href="{{ item.link }}"><img src="{{ item.image }}" alt="{{ item.title }}" class="img-fluid"></a>
+                {% else %}
+                <img src="{{ item.image }}" alt="{{ item.title }}" class="img-fluid"> 
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Left and right controls --> 
+        <a class="carousel-control-prev" href="#demo" data-slide="prev"> <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next" href="#demo" data-slide="next"> <span class="carousel-control-next-icon"></span> </a> 
+    </div>
+</div>
+<div class="container">
+    <div class="spacer40"></div>
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h4 class="text-green"><strong>{{ title }}</strong></h4>
+            <p>{{ description_about }}</p>
+            <a href="{{ aboutus }}" class="btn bg-green text-white">Xem thêm <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="col-md-6 d-none d-md-block">
+            <div class="box-img">
+                <div id="slide-img1" class="carousel slide" data-ride="carousel"> 
+                    <div class="carousel-inner">
+                        <div class="carousel-item active"> 
+                            <img src="image/3581155250717451.jpg" alt="" class="img-fluid"> 
+                        </div>
+                        <div class="carousel-item"> 
+                            <img src="image/3581155250717453.jpg" alt="" class="img-fluid"> 
+                        </div>
+                        <div class="carousel-item"> 
+                            <img src="image/3581155250717452.jpg" alt="" class="img-fluid"> 
+                        </div>
+                        <div class="carousel-item"> 
+                            <img src="image/3581155250717450.jpg" alt="" class="img-fluid"> 
+                        </div>
+                        <div class="carousel-item"> 
+                            <img src="image/3581155250717454.jpg" alt="" class="img-fluid"> 
+                        </div>
+                    </div>
+                </div>
+                <div id="slide-img2" class="carousel slide" data-ride="carousel"> 
+                    <div class="carousel-inner">
+                        <div class="carousel-item active"> 
+                            <img src="image/3581155250717450.jpg" alt="" class="img-fluid"> 
+                        </div>
+                        <div class="carousel-item"> 
+                            <img src="image/3581155250717454.jpg" alt="" class="img-fluid"> 
+                        </div>
+                        <div class="carousel-item"> 
+                            <img src="image/3581155250717451.jpg" alt="" class="img-fluid"> 
+                        </div>
+                        <div class="carousel-item"> 
+                            <img src="image/3581155250717453.jpg" alt="" class="img-fluid"> 
+                        </div>
+                        <div class="carousel-item"> 
+                            <img src="image/3581155250717452.jpg" alt="" class="img-fluid"> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="spacer40"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="text-center text-green"><strong>Danh mục sản phẩm</strong></h4>
+        </div>
+        <div class="col-sm-12">
+            <div class="box-category">
+                {% for item in categories %}
+                <div class="category-item text-center">
+                    <a href="{{ item.href }}">    
+                        <img src="{{ item.image }}">
+                        <p>{{ item.name }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="spacer40"></div>
+<div class="product-random">
+    <div class="container">
+        <h4 class="text-center text-green"><strong>Sản phẩm nổi bật</strong></h4>
+        <div class="owl-carousel owl-theme">
+            {% for product in products_rand %}
+            <div class="product-item item">
+                <div class="product-thumb">
+                    <div class="image">
+                        <a href="{{ product.href }}">
+                            <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-fluid" />
+                        </a>
+                    </div>
+                    <div>
+                        <div class="caption">
+                            <h4 class="text-center"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                            {% if product.price %}
+                            <p class="price"> 
+                                {% if not product.special %}
+                                {{ product.price }}
+                                {% else %} 
+                                <span class="price-new">{{ product.special }}</span> 
+                                <span class="price-old">{{ product.price }}</span> {% endif %}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div id="common-home" class="container">
+    <div class="row">
+        {{ column_left }}
+        {% if column_left and column_right %}
+        {% set class = 'col-sm-6' %}
+        {% elseif column_left or column_right %}
+        {% set class = 'col-sm-9' %}
+        {% else %}
+        {% set class = 'col-sm-12' %}
+        {% endif %}
+        <div id="content" class="{{ class }}"> {{ content_top }}
+            {{ content_bottom }} 
+            
+            
+            <div class="spacer40"></div>
+            {% for item in categories %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-category">
+                        <a href="{{ item.hreft }}"><h4 class="text-white"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i> {{ item.name }}</h4></a>
+                    </div>
+                </div>
+                {% for product in item.products %}
+                <div class="product-layout product-grid col-lg-3 col-md-4 col-sm-6 col-12" data-aos="fade-up">
+                    <div class="product-thumb">
+                        <div class="image">
+                            <a href="{{ product.href }}">
+                                <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-fluid" />
+                            </a>
+                        </div>
+                        <div>
+                            <div class="caption">
+                                <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                                <p>{{ product.description }}</p>
+                                {% if product.price %}
+                                <p class="price"> 
+                                    {% if not product.special %}
+                                    {{ product.price }}
+                                    {% else %} 
+                                    <span class="price-new">{{ product.special }}</span> 
+                                    <span class="price-old">{{ product.price }}</span> {% endif %}
+                                    {# {% if product.tax %} 
+                                    <span class="price-tax">{{ text_tax }} {{ product.tax }}
+                                    </span> 
+                                    {% endif %} #} 
+                                </p>
+                                {% endif %}
+                                {# {% if product.rating %}
+                                <div class="rating"> {% for i in 1..5 %}
+                                    {% if product.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>{% endif %}
+                                    {% endfor %} 
+                                </div>
+                                {% endif %} #}
+                            </div>
+                            <div class="button-group" hidden="">
+                                <button type="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
+                                <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+                                <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %} 
+            </div>
+            <div class="spacer30"></div>
+            {% endfor %}
+            <div class="spacer30"></div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="title-news">
+                        <span>Tin tức - sự kiện</span>
+                    </div>
+                </div>
+                <div class="spacer10"></div>
+                {% if posts %}
+                {% for key, post in posts %}
+                {% if key == 0 %}
+                <div class="col-md-6">
+                    <div class="box-news">
+                        <a href="{{ post.post.href }}">
+                            <img src="{{ post.post.thumb }}" class="img-fluid" alt="{{ post.post.image_alt }}" title="{{ post.post.image_title }}">
+                        </a>
+                        <div class="spacer10"></div>
+                        <a href="{{ post.post.href }}"><h5>{{ post.post.title }}</h5></a>
+                        <p class="author"><a href="{{ post.post.author_link }}">{{ post.post.author }}</a> - <span>{{ post.post.date_published }}</span></p>
+                        <p>{{ post.post.short_description }}</p>
+                    </div>
+                </div>
+                {% else %}
+                {% if key == 1 %}
+                <div class="col-md-6">{% endif %}
+                    <div class="row row-cus-10">
+                        <div class="col-3 col-cus-10">
+                            <a href="{{ post.post.href }}">
+                                <img src="{{ post.post.thumb }}" class="img-fluid" alt="{{ post.post.image_alt }}" title="{{ post.post.image_title }}">
+                            </a>
+                        </div>
+                        <div class="col-9 col-cus-10">
+                            <a href="{{ post.post.href }}"><h5>{{ post.post.title }}</h5></a>
+                            <p class="author"><a href="{{ post.post.author_link }}">{{ post.post.author }}</a> - <span>{{ post.post.date_published }}</span></p>
+                            <p>{{ post.post.short_description }}</p>
+                        </div>
+                    </div>
+                {% if key == limit_post - 1 %}
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        {{ column_right }} 
+    </div>
+</div>
+<script>
+    AOS.init({
+        easing: 'ease-in-out-sine'
+    });
+    
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:10,
+        nav:false,
+        autoplay:true,
+        autoplayTimeout:3000,
+        autoplayHoverPause:true,
+        responsive:{
+            0:{
+                items:1
+            },
+            576:{
+                items:2
+            },
+            768:{
+                items:3
+            },
+            992:{
+                items:4
+            }
+        }
+    })
+</script>
+{{ footer }}
