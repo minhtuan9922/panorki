@@ -47,9 +47,9 @@
 {% endfor %}
 </head>
 <body>
-    <nav id="top">
+    {# <nav id="top">
         <div class="container">{{ currency }}
-            {# {{ language }}
+            {{ language }}
             <div id="top-links" class="nav pull-right">
                 <ul class="list-inline">
                     <li><a href="{{ contact }}"><i class="fa fa-phone"></i></a> <span class="hidden-xs hidden-sm hidden-md">{{ telephone }}</span></li>
@@ -71,7 +71,7 @@
                     <li><a href="{{ shopping_cart }}" title="{{ text_shopping_cart }}"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ text_shopping_cart }}</span></a></li>
                     <li><a href="{{ checkout }}" title="{{ text_checkout }}"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md">{{ text_checkout }}</span></a></li>
                 </ul>
-            </div> #}
+            </div>
             <div class="row">
                 <div class="col-lg-2">
                     <div class="logo">
@@ -95,18 +95,11 @@
                 </div>
             </div>
         </div>
-    </nav>
-    <header>
+    </nav> #}
+    {# <header>
         <nav class="navbar navbar-expand-lg navbar-dark nav-bg">
             <div class="container">
-                {# {% if logo %}
-                <a class="navbar-brand logo" href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}"></a>
-<!--                <a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>-->
-                {% else %}
-                <a class="navbar-brand logo" href="{{ home }}">{{ name }}</a>
-<!--                <h4><a href="{{ home }}">{{ name }}</a></h4>-->
-                {% endif %} #}
-                
+              
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -132,11 +125,9 @@
                                 {% endif %}
                             </div>
                         </li>
-<!--
                         <li class="nav-item">
                             <a class="nav-link" href="{{ special }}">Khuyễn mãi</a>
                         </li>
--->
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ news }}">TIN TỨC</a>
                         </li>
@@ -157,25 +148,172 @@
                 </div>
             </div>
         </nav>
-    </header>
+    </header> #}
     {# {{ menu }} #}
-<!--
-    <div class="container">
-        <div class="menu">
-            <ul>
-                <li><a href="#">dkfkd</a></li>
-                <li><a href="#">dkfkd</a></li>
-                <li>
-                    <div>
-                        <ul>
-                            <li><a href="">kfslkdf</a></li>
-                            <li><a href="">kfslkdf</a></li>
-                            <li><a href="">kfslkdf</a></li>
-                            <li><a href="">kfslkdf</a></li>
-                        </ul>
-                    </div>
-                </li>
+
+    <div class="menu">
+        <div class="logo">
+            <img src="image/logo1.png" alt="">
+        </div>
+        <div class="spacer40"></div>
+        <div class="spacer5"></div>
+        <ul>
+            <li><a href="#" data-toggle="modal" data-target="#modal_about" id="btn_about">Giới Thiệu</a></li>
+            <li><a href="#">Liên Hệ</a></li>
+            <li><a href="#">Album</a></li>
+        </ul>
+        <button class="btn btn-order" data-toggle="modal" data-target="#modal_order"><img src="image/order.png" alt=""></button>
+    </div>
+    <div class="home-banner">
+        <div id="demo" class="carousel slide" data-ride="carousel"> 
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                {% if banners %}
+                {% for key, item in banners %}
+                <li data-target="#demo" data-slide-to="{{ key }}" class="{%if key == '0' %}active{% endif %}"></li>
+                {% endfor %}
+                {% endif %}
             </ul>
+    
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                {% if banners %}
+                {% for key, item in banners %}
+                <div class="carousel-item {% if key == '0' %}active{% endif %}" style="background-image: url('{{ item.image }}');"> 
+                    {# {% if item.link %}
+                    <a href="{{ item.link }}"><img src="{{ item.image }}" alt="{{ item.title }}" class="img-banner"></a>
+                    {% else %}
+                    <img src="{{ item.image }}" alt="{{ item.title }}" class="img-banner"> 
+                    {% endif %} #}
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+    
+            <!-- Left and right controls --> 
+            <a class="carousel-control-prev" href="#demo" data-slide="prev"> 
+                <img src="image/Next_left.png" alt="">
+            </span> </a> 
+            <a class="carousel-control-next" href="#demo" data-slide="next"> 
+                <img src="image/Next_right.png" alt="">
+            </a> 
+        </div>
+        <div class="box-social text-center">
+            <a href="{{ link_tiktok }}" target="_blank"><img src="image/icon tiktok.png" alt=""></a>
+            <a href="{{ link_facebook }}" target="_blank"><img src="image/icon facebook.png" alt=""></a>
+            <a href="{{ link_youtube }}" target="_blank"><img src="image/icon youtube.png" alt=""></a>
         </div>
     </div>
--->
+    <div class="modal fade bd-example-modal-lg" id="modal_order" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <form action="{{ action }}" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" name="name" placeholder="Họ tên" class="form-control" required>
+                            <input type="text" name="address" placeholder="Địa chỉ" class="form-control" required>
+                            <input type="text" name="telephone" placeholder="Số điện thoại" class="form-control" required>
+                            <input type="text" name="filename" hidden value="" required>
+                            <button type="button" class="btn btn-upload" id="button-upload">Tải ảnh lên</button>
+                        </div>
+                        <div class="col-auto">
+                            <div class="box-avatar">
+                                <img src="image/avatar.png" alt="" width="100%" id="avatar">
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button class="btn btn-send" type="submit"><img src="image/send.png" alt=""></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="modal_about" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div id="content_about"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#button-upload').on('click', function() {
+            $('#form-upload').remove();
+
+            $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+            $('#form-upload input[name=\'file\']').trigger('click');
+
+            if (typeof timer != 'undefined') {
+                clearInterval(timer);
+            }
+
+            timer = setInterval(function() {
+                if ($('#form-upload input[name=\'file\']').val() != '') {
+                    clearInterval(timer);
+
+                    $.ajax({
+                        url: 'index.php?route=common/header/upload',
+                        type: 'post',
+                        dataType: 'json',
+                        data: new FormData($('#form-upload')[0]),
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function() {
+                            $('#button-upload').button('loading');
+                        },
+                        complete: function() {
+                            $('#button-upload').button('reset');
+                        },
+                        success: function(json) {
+                            if (json['error']) {
+                                alert(json['error']);
+                            }
+
+                            if (json['success']) {
+                                alert(json['success']);
+
+                                $('input[name=\'filename\']').val(json['filename']);
+                                $('input[name=\'mask\']').val(json['mask']);
+                                $('#avatar').attr('src', 'storage/download/' + json['filename']);
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                }
+            }, 500);
+        });
+        $('#btn_about').click(function() {
+            $('#content_about').load('index.php?route=information/information&information_id=4');
+            // $.ajax({
+            //     url: 'index.php?route=information/information&information_id=4',
+            //     type: 'get',
+            //     dataType: 'json',
+            //     beforeSend: function() {
+                    // $('#button-upload').button('loading');
+                // },
+                // complete: function() {
+                    // $('#button-upload').button('reset');
+                // },
+                // success: function() {
+                    // if (json['error']) {
+                    //     alert(json['error']);
+                    // }
+
+                    // if (json['content']) {
+                        // alert(json['success']);
+                        
+                    // }
+            //     },
+            //     error: function(xhr, ajaxOptions, thrownError) {
+            //         alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            //     }
+            // });
+        });
+    </script>

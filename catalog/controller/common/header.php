@@ -37,6 +37,9 @@ class ControllerCommonHeader extends Controller {
 
 		$data['name'] = $this->config->get('config_name');
 		$data['address'] = $this->config->get('config_address');
+		$data['link_tiktok'] = $this->config->get('config_link_tiktok');
+		$data['link_facebook'] = $this->config->get('config_link_facebook');
+		$data['link_youtube'] = $this->config->get('config_link_youtube');
 
 		if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
 			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');
@@ -96,6 +99,24 @@ class ControllerCommonHeader extends Controller {
 				);
 			}
 		}
+
+		//slide
+        $this->load->model('design/banner');
+		$this->load->model('tool/image');
+		
+		$data['banners'] = array();
+
+		$results = $this->model_design_banner->getBanner(7);
+
+		foreach ($results as $result) {
+			if (is_file(DIR_IMAGE . $result['image'])) {
+				$data['banners'][] = array(
+					'title' => $result['title'],
+					'link'  => $result['link'],
+					'image' => str_replace(HTTPS_SERVER, '', $this->model_tool_image->resize($result['image'], 1920, 1080))
+				);
+			}
+		}
 		
 		$data['home'] = $this->url->link('common/home');
 		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
@@ -113,7 +134,8 @@ class ControllerCommonHeader extends Controller {
 		$data['telephone'] = $this->config->get('config_telephone');
         $data['special'] = $this->url->link('product/special', '', true);
         $data['news'] = $this->url->link('extension/d_blog_module/category', '', true);
-        $data['aboutus'] = $this->url->link('information/information&information_id=4', '', true);
+		$data['aboutus'] = $this->url->link('information/information&information_id=4', '', true);
+		$data['action'] = $this->url->link('common/header/order', '', true);
 		
 		$data['language'] = $this->load->controller('common/language');
 		$data['currency'] = $this->load->controller('common/currency');
@@ -122,5 +144,105 @@ class ControllerCommonHeader extends Controller {
 		$data['menu'] = $this->load->controller('common/menu');
 
 		return $this->load->view('common/header', $data);
+	}
+	public function order()
+	{
+		$this->load->model('account/order_image');
+		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+			// print_r($this->request->post); die();
+			$this->model_account_order_image->add_order_image($this->request->post);
+
+			$this->session->data['success'] = 'Order thành công';
+
+			$this->response->redirect($this->url->link('common/home', '', true));
+		}
+	}
+	public function upload() {
+		$this->load->language('common/download');
+
+		$json = array();
+
+		// Check user has permission
+		// if (!$this->user->hasPermission('modify', 'catalog/download')) {
+		// 	$json['error'] = $this->language->get('error_permission');
+		// }
+
+		if (!$json) {
+			if (!empty($this->request->files['file']['name']) && is_file($this->request->files['file']['tmp_name'])) {
+				// Sanitize the filename
+				$filename = basename(html_entity_decode($this->request->files['file']['name'], ENT_QUOTES, 'UTF-8'));
+
+				$i = 1;
+				$name_tmp = substr($filename, 0, strlen($filename) - strlen(strrchr($filename, '.')));
+				while(file_exists(DIR_DOWNLOAD.$filename))
+				{
+					$filename = $name_tmp.'_'.$i.strrchr($filename, '.');
+					$i++;
+				}
+
+				// Validate the filename length
+				// if ((utf8_strlen($filename) < 3) || (utf8_strlen($filename) > 128)) {
+				// 	$json['error'] = $this->language->get('error_filename');
+				// }
+
+				// Allowed file extension types
+				$allowed = array();
+
+				$extension_allowed = preg_replace('~\r?\n~', "\n", $this->config->get('config_file_ext_allowed'));
+
+				$filetypes = explode("\n", $extension_allowed);
+
+				foreach ($filetypes as $filetype) {
+					$allowed[] = trim($filetype);
+				}
+
+				if (!in_array(strtolower(substr(strrchr($filename, '.'), 1)), $allowed)) {
+					$json['error'] = $this->language->get('error_filetype');
+				}
+
+				// Allowed file mime types
+				$allowed = array();
+
+				$mime_allowed = preg_replace('~\r?\n~', "\n", $this->config->get('config_file_mime_allowed'));
+
+				$filetypes = explode("\n", $mime_allowed);
+
+				foreach ($filetypes as $filetype) {
+					$allowed[] = trim($filetype);
+				}
+
+				if (!in_array($this->request->files['file']['type'], $allowed)) {
+					$json['error'] = $this->language->get('error_filetype');
+				}
+
+				// Check to see if any PHP files are trying to be uploaded
+				$content = file_get_contents($this->request->files['file']['tmp_name']);
+
+				if (preg_match('/\<\?php/i', $content)) {
+					$json['error'] = $this->language->get('error_filetype');
+				}
+
+				// Return any upload error
+				if ($this->request->files['file']['error'] != UPLOAD_ERR_OK) {
+					$json['error'] = $this->language->get('error_upload_' . $this->request->files['file']['error']);
+				}
+			} else {
+				$json['error'] = $this->language->get('error_upload');
+			}
+		}
+
+		if (!$json) {
+			$file = $filename;
+
+			move_uploaded_file($this->request->files['file']['tmp_name'], DIR_DOWNLOAD . $file);
+
+			$json['filename'] = $file;
+			$json['mask'] = $filename;
+
+			$json['success'] = $this->language->get('text_upload');
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 }
