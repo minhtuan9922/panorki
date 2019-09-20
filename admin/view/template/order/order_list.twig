@@ -79,7 +79,7 @@
                     <td class="text-left">{{ item.address }}</td>
                     <td class="text-left">{{ item.telephone }}</td>
                     <td class="text-left">{{ item.date_added }}</td>
-                    <td class="text-left">{{ item.filename }}</td>
+                    <td class="text-left"><a href="{{ item.filename }}" target="_blank"><img src="{{ item.filename }}" alt="" width="200px"></a></td>
                   </tr>
                   {% endfor %}
                   {% else %}

@@ -199,7 +199,7 @@ class ControllerOrderOrder extends Controller {
 				'name'        => $result['name'],
 				'address'        => $result['address'],
 				'telephone'        => $result['telephone'],
-				'filename'        => $result['filename'],
+				'filename'        => HTTPS_CATALOG.'storage/download/'.$result['filename'],
 				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				// 'edit'        => $this->url->link('catalog/download/edit', 'user_token=' . $this->session->data['user_token'] . '&download_id=' . $result['download_id'] . $url, true)
 			);
@@ -282,6 +282,8 @@ class ControllerOrderOrder extends Controller {
 		$data['filter_telephone'] = $filter_telephone;
 		$data['sort'] = $sort;
 		$data['order'] = $order;
+
+		$data['user_token'] = $this->session->data['user_token'];
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
