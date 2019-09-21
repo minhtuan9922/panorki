@@ -1066,6 +1066,10 @@ footer .copyright p {
 	padding-top: 50px;
 	padding-left: 60px;
 	background-image: linear-gradient(to right, rgb(54, 54, 54), rgba(255, 255, 255, 0));
+	transition: all 0.4s;
+}
+.menu.open {
+	left: 0;
 }
 .menu ul {
 	padding-left: 0;
@@ -1173,4 +1177,54 @@ footer .copyright p {
 #modal_order .btn-send {
 	background-color: transparent;
 	padding: 0;
+}
+#modal_order .btn-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.btn_menu {
+	display: none;
+	cursor: pointer;
+	position: fixed;
+	transition: 0.4s;
+	top: 15px;
+	left: 15px;
+	z-index: 11;
+}  
+.btn_menu.open {
+	left: 260px;
+}
+.bar1, .bar2, .bar3 {
+	width: 35px;
+	height: 5px;
+	background-color: #333;
+	margin: 6px 0;
+	transition: 0.4s;
+}
+.change .bar1 {
+	-webkit-transform: rotate(-45deg) translate(-9px, 6px);
+	transform: rotate(-45deg) translate(-9px, 6px);
+}
+.change .bar2 {
+	opacity: 0;
+}
+.change .bar3 {
+	-webkit-transform: rotate(45deg) translate(-8px, -8px);
+	transform: rotate(45deg) translate(-8px, -8px);
+}
+@media (max-width: 992px) {
+	.btn_menu {
+		display: block;
+	}
+	.menu {
+		left: -300px;
+		overflow: scroll
+	}
+	.home-banner .carousel-control-prev {
+		left: 0;
+	}
+	#modal_order .modal-content {
+		padding-left: 95px;
+	}
 }

@@ -81,11 +81,11 @@ class ControllerOrderOrder extends Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('catalog/download');
+		$this->load->model('order/order');
 
 		if (isset($this->request->post['selected']) && $this->validateDelete()) {
-			foreach ($this->request->post['selected'] as $download_id) {
-				$this->model_catalog_download->deleteDownload($download_id);
+			foreach ($this->request->post['selected'] as $order_id) {
+				$this->model_order_order->delete_order($order_id);
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -104,7 +104,7 @@ class ControllerOrderOrder extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/download', 'user_token=' . $this->session->data['user_token'] . $url, true));
+			$this->response->redirect($this->url->link('order/order', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
 
 		$this->getList();
@@ -427,18 +427,8 @@ class ControllerOrderOrder extends Controller {
 	}
 
 	protected function validateDelete() {
-		if (!$this->user->hasPermission('modify', 'catalog/download')) {
+		if (!$this->user->hasPermission('modify', 'order/order')) {
 			$this->error['warning'] = $this->language->get('error_permission');
-		}
-
-		$this->load->model('catalog/product');
-
-		foreach ($this->request->post['selected'] as $download_id) {
-			$product_total = $this->model_catalog_product->getTotalProductsByDownloadId($download_id);
-
-			if ($product_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_product'), $product_total);
-			}
 		}
 
 		return !$this->error;

@@ -259,6 +259,24 @@ class ControllerSettingSetting extends Controller {
 			$data['config_fanpage'] = $this->config->get('config_fanpage');
 		}
 		
+		if (isset($this->request->post['config_facebook'])) {
+			$data['config_facebook'] = $this->request->post['config_facebook'];
+		} else {
+			$data['config_facebook'] = $this->config->get('config_facebook');
+		}
+		
+		if (isset($this->request->post['config_youtube'])) {
+			$data['config_youtube'] = $this->request->post['config_youtube'];
+		} else {
+			$data['config_youtube'] = $this->config->get('config_youtube');
+		}
+		
+		if (isset($this->request->post['config_tiktok'])) {
+			$data['config_tiktok'] = $this->request->post['config_tiktok'];
+		} else {
+			$data['config_tiktok'] = $this->config->get('config_tiktok');
+		}
+		
 		if (isset($this->request->post['config_fax'])) {
 			$data['config_fax'] = $this->request->post['config_fax'];
 		} else {

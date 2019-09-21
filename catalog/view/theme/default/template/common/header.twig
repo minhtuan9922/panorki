@@ -164,6 +164,11 @@
         </ul>
         <button class="btn btn-order" data-toggle="modal" data-target="#modal_order"><img src="image/order.png" alt=""></button>
     </div>
+    <div class="btn_menu" onclick="myFunction(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
     <div class="home-banner">
         <div id="demo" class="carousel slide" data-ride="carousel"> 
             <!-- Indicators -->
@@ -207,6 +212,9 @@
     <div class="modal fade bd-example-modal-lg" id="modal_order" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
+                <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+                    <img src="image/losed.png" alt="">
+                </button>
                 <form action="{{ action }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col">
@@ -291,29 +299,10 @@
         });
         $('#btn_about').click(function() {
             $('#content_about').load('index.php?route=information/information&information_id=4');
-            // $.ajax({
-            //     url: 'index.php?route=information/information&information_id=4',
-            //     type: 'get',
-            //     dataType: 'json',
-            //     beforeSend: function() {
-                    // $('#button-upload').button('loading');
-                // },
-                // complete: function() {
-                    // $('#button-upload').button('reset');
-                // },
-                // success: function() {
-                    // if (json['error']) {
-                    //     alert(json['error']);
-                    // }
-
-                    // if (json['content']) {
-                        // alert(json['success']);
-                        
-                    // }
-            //     },
-            //     error: function(xhr, ajaxOptions, thrownError) {
-            //         alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-            //     }
-            // });
         });
+        function myFunction(x) {
+            x.classList.toggle("change");
+            $('.menu').toggleClass('open');
+            $('.btn_menu').toggleClass('open');
+        }
     </script>
