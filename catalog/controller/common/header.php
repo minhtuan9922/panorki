@@ -40,6 +40,9 @@ class ControllerCommonHeader extends Controller {
 		$data['link_tiktok'] = $this->config->get('config_tiktok');
 		$data['link_facebook'] = $this->config->get('config_facebook');
 		$data['link_youtube'] = $this->config->get('config_youtube');
+		$data['link_album'] = $this->config->get('config_link_album');
+		$data['logo1'] = $server . 'image/' . $this->config->get('config_image');
+		$data['background_menu'] = $server . 'image/' . $this->config->get('config_background_menu');
 
 		if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
 			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');

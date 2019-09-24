@@ -277,6 +277,12 @@ class ControllerSettingSetting extends Controller {
 			$data['config_tiktok'] = $this->config->get('config_tiktok');
 		}
 		
+		if (isset($this->request->post['config_link_album'])) {
+			$data['config_link_album'] = $this->request->post['config_link_album'];
+		} else {
+			$data['config_link_album'] = $this->config->get('config_link_album');
+		}
+		
 		if (isset($this->request->post['config_fax'])) {
 			$data['config_fax'] = $this->request->post['config_fax'];
 		} else {
@@ -288,6 +294,12 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['config_image'] = $this->config->get('config_image');
 		}
+		
+		if (isset($this->request->post['config_background_menu'])) {
+			$data['config_background_menu'] = $this->request->post['config_background_menu'];
+		} else {
+			$data['config_background_menu'] = $this->config->get('config_background_menu');
+		}
 
 		$this->load->model('tool/image');
 
@@ -297,6 +309,14 @@ class ControllerSettingSetting extends Controller {
 			$data['thumb'] = $this->model_tool_image->resize($this->config->get('config_image'), 100, 100);
 		} else {
 			$data['thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+		}
+		
+		if (isset($this->request->post['config_background_menu']) && is_file(DIR_IMAGE . $this->request->post['config_background_menu'])) {
+			$data['thumb_background'] = $this->model_tool_image->resize($this->request->post['config_background_menu'], 100, 100);
+		} elseif ($this->config->get('config_background_menu') && is_file(DIR_IMAGE . $this->config->get('config_background_menu'))) {
+			$data['thumb_background'] = $this->model_tool_image->resize($this->config->get('config_background_menu'), 100, 100);
+		} else {
+			$data['thumb_background'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 		}
 
 		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);

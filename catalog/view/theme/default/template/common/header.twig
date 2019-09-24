@@ -151,18 +151,21 @@
     </header> #}
     {# {{ menu }} #}
 
-    <div class="menu">
+    <div class="menu" style="background-image: url({{ background_menu }})">
         <div class="logo">
-            <img src="image/logo1.png" alt="">
+            <img src="{{ logo1 }}" alt="">
         </div>
         <div class="spacer40"></div>
         <div class="spacer5"></div>
         <ul>
             <li><a href="#" data-toggle="modal" data-target="#modal_about" id="btn_about">Giới Thiệu</a></li>
-            <li><a href="#">Liên Hệ</a></li>
-            <li><a href="#">Album</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#modal_contact" id="btn_contact">Liên Hệ</a></li>
+            <li><a href="{{ link_album }}">Album</a></li>
         </ul>
         <button class="btn btn-order" data-toggle="modal" data-target="#modal_order"><img src="image/order.png" alt=""></button>
+    </div>
+    <div class="logo-home">
+        <img src="{{ logo }}">
     </div>
     <div class="btn_menu" onclick="myFunction(this)">
         <div class="bar1"></div>
@@ -213,7 +216,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
-                    <img src="image/losed.png" alt="">
+                    <span aria-hidden="true">&times;</span>
                 </button>
                 <form action="{{ action }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
@@ -230,7 +233,7 @@
                             </div>
                         </div>
                         <div class="col-12 text-center">
-                            <button class="btn btn-send" type="submit"><img src="image/send.png" alt=""></button>
+                            <button class="btn btn-default" type="submit">Gửi</button>
                         </div>
                     </div>
                 </form>
@@ -240,10 +243,20 @@
     <div class="modal fade bd-example-modal-lg" id="modal_about" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <div id="content_about"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="modal_contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div id="content_contact"></div>
             </div>
         </div>
     </div>
@@ -300,9 +313,12 @@
         $('#btn_about').click(function() {
             $('#content_about').load('index.php?route=information/information&information_id=4');
         });
+        $('#btn_contact').click(function() {
+            $('#content_contact').load('index.php?route=information/information&information_id=7');
+        });
         function myFunction(x) {
             x.classList.toggle("change");
             $('.menu').toggleClass('open');
-            $('.btn_menu').toggleClass('open');
+            // $('.btn_menu').toggleClass('open');
         }
     </script>
