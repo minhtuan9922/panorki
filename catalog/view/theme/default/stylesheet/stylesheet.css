@@ -1107,7 +1107,6 @@ footer .copyright p {
 }
 .home-banner .carousel-item {
 	height: 100vh;
-	min-height: 300px;
 	background: no-repeat center center scroll;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -1243,6 +1242,13 @@ footer .copyright p {
 	}
 	#modal_order .modal-content {
 		padding-left: 95px;
+	}
+	.home-banner .carousel-item {
+		background-position: center;
+		background-size: 100% auto;
+	}
+	.carousel-inner {
+		background-color: gray;
 	}
 }
 #content_about, #content_contact {
