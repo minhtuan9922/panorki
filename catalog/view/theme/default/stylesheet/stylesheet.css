@@ -1245,7 +1245,7 @@ footer .copyright p {
 	}
 	.home-banner .carousel-item {
 		background-position: center;
-		background-size: 100% auto;
+		/* background-size: 100% auto; */
 	}
 	.carousel-inner {
 		background-color: gray;
